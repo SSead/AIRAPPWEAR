@@ -16,6 +16,7 @@ public class Item {
     private int aqi;
     private String desc;
     private String readingDataTime;
+    private Date date;
 
     public Item() {
         title = new String();
@@ -90,20 +91,23 @@ public class Item {
 
     public void setReadingDataTime(String readingDataTime) {
         this.readingDataTime = readingDataTime;
-    }
 
-    public String getDay() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
 
         try {
-            Date date = dateFormat.parse(readingDataTime);
-
-            String s = new SimpleDateFormat("EEEE").format(date);
-            return s;
+            date = dateFormat.parse(readingDataTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
-        return null;
+    public String getDay() {
+        String s = new SimpleDateFormat("EEEE").format(date);
+        return s;
+    }
+
+    public String getTime() {
+        String s = new SimpleDateFormat("hh:mm").format(date);
+        return s;
     }
 }

@@ -20,6 +20,8 @@ public class MainActivity extends WearableActivity {
 
     private TextView day;
     private TextView val;
+    private TextView location;
+    private TextView time;
     private static HttpURLConnection con;
     private JavaGetRequest request;
     private Channel data;
@@ -40,6 +42,9 @@ public class MainActivity extends WearableActivity {
 
         day = findViewById(R.id.day);
         val = findViewById(R.id.AQIValue);
+        location = findViewById(R.id.location);
+        time = findViewById(R.id.time);
+
 
         request = new JavaGetRequest();
         data = new Channel();
@@ -74,14 +79,16 @@ public class MainActivity extends WearableActivity {
         });
         thread.start();
 
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                while (b == false);
-
-                val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
-                day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
-
+                if (b) {
+                    val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
+                    day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
+                    location.setText(data.getTitle());
+                    time.setText(data.getItems().get(data.getItems().size() - 1).getTime());
+                }
             }
         }, 2000);
         // Enables Always-on
