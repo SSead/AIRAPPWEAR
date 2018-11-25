@@ -1,20 +1,89 @@
 package io.development.millionlady.airapp_wear;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import io.development.millionlady.airapp_wear.XMLStructure.Channel;
+
 public class MainActivity extends WearableActivity {
 
-    private TextView mTextView;
+    private TextView day;
+    private TextView val;
+    private static HttpURLConnection con;
+    private JavaGetRequest request;
+    private Channel data;
+    private boolean b;
+
+    private Handler handler;
+
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextView = (TextView) findViewById(R.id.text);
 
+        activity = this;
+        handler = new Handler();
+
+        day = findViewById(R.id.day);
+        val = findViewById(R.id.AQIValue);
+
+        request = new JavaGetRequest();
+        data = new Channel();
+
+        b = false;
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String content;
+                request.setUrl("http://dosairnowdata.org/dos/RSS/Sarajevo/Sarajevo-PM2.5.xml");
+
+                try {
+                    while (true) {
+                        content = request.post();
+                        //System.out.println(content);
+
+                        data = XMLToObject.toChannel(content);
+                        //val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
+                        System.out.println(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
+                        b = true;
+
+                        Thread.sleep(60000);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error");
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                while (b == false);
+
+                val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
+                day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
+
+            }
+        }, 2000);
         // Enables Always-on
         setAmbientEnabled();
     }

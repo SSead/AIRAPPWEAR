@@ -14,11 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="23" />
-                            <entry key="outputName" value="ic_rectangle" />
+                            <entry key="height" value="196" />
+                            <entry key="outputName" value="ic_shape" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\pc\Downloads\Rectangle 78.svg" />
-                            <entry key="width" value="260" />
+                            <entry key="sourceFile" value="C:\Users\pc\Desktop\elipsa.svg" />
+                            <entry key="width" value="196" />
                           </map>
                         </option>
                       </PersistentState>
