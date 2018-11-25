@@ -81,6 +81,37 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:padding="1dp"
+                android:background="@drawable/ic_rectangle">
+                <TextView
+                    android:id="@+id/location"
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sarajevo, BA"
+                    android:fontFamily="@font/regular"
+                    android:textSize="10dp"
+                    android:textColor="#000000"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="10dp">
+
+                </View>
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="17:00"
+                    android:fontFamily="@font/regular"
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
 
 
         </LinearLayout>
