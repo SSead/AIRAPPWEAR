@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="good">#1aff66</color>
+    <color name="moderate">#ffd11a</color>
+    <color name="sensitive">#ff8c1a</color>
+    <color name="unhealthy">#ff1a1a</color>
+    <color name="very_unhealthy">#990000</color>
+    <color name="hazardous">#800080</color>
+
+    <array name="quality">
+        <item>@color/good</item>
+        <item>@color/moderate</item>
+        <item>@color/sensitive</item>
+        <item>@color/unhealthy</item>
+        <item>@color/very_unhealthy</item>
+        <item>@color/hazardous</item>
+
+    </array>
+</resources>
