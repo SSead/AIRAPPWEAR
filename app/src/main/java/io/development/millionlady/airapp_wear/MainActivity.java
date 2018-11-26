@@ -30,6 +30,10 @@ public class MainActivity extends WearableActivity {
 
     MainFragment mainFragment;
     HealthFragment healthFragment;
+    LevelFragment levelFragment;
+
+
+    private int swipes;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -48,8 +52,10 @@ public class MainActivity extends WearableActivity {
 
 
 
+
         mainFragment = new MainFragment();
         healthFragment = new HealthFragment();
+        levelFragment = new LevelFragment();
 
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
@@ -60,12 +66,36 @@ public class MainActivity extends WearableActivity {
         frameLayout = findViewById(R.id.content);
         frameLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeBottom() {
+                if (swipes > 0) swipes--;
+
                 fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
+
+                switch (swipes) {
+                    case 0:
+                        fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
+                        break;
+                    case 1:
+                        fragmentManager.beginTransaction().replace(R.id.content, healthFragment).commit();
+                        break;
+                    case 2:
+                        fragmentManager.beginTransaction().replace(R.id.content, levelFragment).commit();
+                }
             }
             public void onSwipeTop() {
-                System.out.println("swipe top");
-                fragmentManager.beginTransaction().replace(R.id.content, healthFragment).commit();
-            }});
+                if (swipes < 2) swipes++;
+
+                switch (swipes) {
+                    case 0:
+                        fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
+                        break;
+                    case 1:
+                        fragmentManager.beginTransaction().replace(R.id.content, healthFragment).commit();
+                        break;
+                    case 2:
+                        fragmentManager.beginTransaction().replace(R.id.content, levelFragment).commit();
+                }
+            }
+        });
 
         // Enables Always-on
         setAmbientEnabled();

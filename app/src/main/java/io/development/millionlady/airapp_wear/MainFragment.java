@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -16,22 +17,13 @@ import java.io.IOException;
 import io.development.millionlady.airapp_wear.XMLStructure.Channel;
 
 public class MainFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
     private Channel data;
 
     private TextView day;
     private TextView val;
     private TextView location;
     private TextView time;
+    private ImageView imageView;
 
     private Handler handler;
 
@@ -81,12 +73,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     @Override
@@ -99,14 +85,27 @@ public class MainFragment extends Fragment {
         val = view.findViewById(R.id.AQIValue);
         location = view.findViewById(R.id.location);
         time = view.findViewById(R.id.time);
+        imageView = view.findViewById(R.id.imageView);
 
 
         while (!b);
+
+        int val = -1;
+        switch (data.getItems().get(data.getItems().size() - 1).getDesc()) {
+            case "Hazardous": val++;
+            case "Very Unhealthy": val++;
+            case "Unhealthy": val++;
+            case "Unhealthy for Sensitive Groups": val++;
+            case "Moderate": val++;
+            case "Good": val++;
+        }
+
         if (b) {
-            val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
-            day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
-            location.setText(data.getTitle());
-            time.setText(data.getItems().get(data.getItems().size() - 1).getTime());
+            this.val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
+            this.day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
+            this.location.setText(data.getTitle());
+            this.time.setText(data.getItems().get(data.getItems().size() - 1).getTime());
+            this.imageView.setColorFilter(getResources().getIntArray(R.array.quality)[val]);
         }
         System.out.println("a");
 

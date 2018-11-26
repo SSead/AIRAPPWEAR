@@ -1,11 +1,30 @@
 <resources>
     <string name="app_name">AIRAPP-WEAR</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="title">
+        <item>GOOD</item>
+        <item>MODERATE</item>
+        <item>UNHEALTHY FOR SENSITIVE GROUPS</item>
+        <item>UNHEALTHY</item>
+        <item>VERY UNHEALTHY</item>
+        <item>HAZARDOUS</item>
+    </string-array>
+
+    <string-array name="desc">
+        <item>Everyone can continue their outdoor activities normally.</item>
+        <item>Only very few hypersensitive people should reduce outdoor activities.</item>
+        <item>Children, seniors and individuals with respiratory or heart diseases should reduce sustained and high-intensity outdoor exercises.</item>
+        <item>Children, seniors and individuals with respiratory or heart diseases should avoid sustained and high-intensity outdoor exercises. General population should moderately reduce outdoor activities.</item>
+        <item>Children, seniors and individuals with heart or lung diseases should stay indoors and avoid outdoor activities. General population should reduce outdoor activities.</item>
+        <item>Children, seniors and the sick should stay indoors and avoid physical exertion. General population should avoid outdoor activities.</item>
+    </string-array>
+
+    <string-array name="lvl">
+        <item>Air quality is considered satisfactory, and air pollution poses little or no risk.</item>
+        <item>Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.</item>
+        <item>Members of sensitive groups may experience health effects. The general public is not likely to be affected.</item>
+        <item>Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.</item>
+        <item>Health warnings of emergency conditions. The entire population is more likely to be affected.</item>
+        <item>Health alert: everyone may experience more serious health effects.</item>
+    </string-array>
 </resources>
