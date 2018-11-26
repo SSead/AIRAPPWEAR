@@ -107,7 +107,7 @@ public class Item {
     }
 
     public String getTime() {
-        String s = new SimpleDateFormat("hh:mm").format(date);
+        String s = new SimpleDateFormat("hh:mm a").format(date);
         return s;
     }
 }
