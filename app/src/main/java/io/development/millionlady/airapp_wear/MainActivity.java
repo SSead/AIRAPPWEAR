@@ -1,9 +1,13 @@
 package io.development.millionlady.airapp_wear;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.wearable.activity.WearableActivity;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -18,19 +22,16 @@ import io.development.millionlady.airapp_wear.XMLStructure.Channel;
 
 public class MainActivity extends WearableActivity {
 
-    private TextView day;
-    private TextView val;
-    private TextView location;
-    private TextView time;
     private static HttpURLConnection con;
-    private JavaGetRequest request;
-    private Channel data;
-    private boolean b;
 
-    private Handler handler;
+    private Activity activity;
+    private android.app.FragmentManager fragmentManager;
+    private FrameLayout frameLayout;
 
-    Activity activity;
+    MainFragment mainFragment;
+    HealthFragment healthFragment;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,59 +39,34 @@ public class MainActivity extends WearableActivity {
 
 
         activity = this;
-        handler = new Handler();
 
-        day = findViewById(R.id.day);
-        val = findViewById(R.id.AQIValue);
-        location = findViewById(R.id.location);
-        time = findViewById(R.id.time);
+        //day = findViewById(R.id.day);
+        //val = findViewById(R.id.AQIValue);
+        //location = findViewById(R.id.location);
+        //time = findViewById(R.id.time);
 
 
-        request = new JavaGetRequest();
-        data = new Channel();
 
-        b = false;
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String content;
-                request.setUrl("http://dosairnowdata.org/dos/RSS/Sarajevo/Sarajevo-PM2.5.xml");
+        mainFragment = new MainFragment();
+        healthFragment = new HealthFragment();
 
-                try {
-                    while (true) {
-                        content = request.post();
-                        //System.out.println(content);
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
 
-                        data = XMLToObject.toChannel(content);
-                        //val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
-                        System.out.println(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
-                        b = true;
 
-                        Thread.sleep(60000);
-                    }
-                } catch (IOException e) {
-                    System.out.println("Error");
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+
+        frameLayout = findViewById(R.id.content);
+        frameLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeBottom() {
+                fragmentManager.beginTransaction().replace(R.id.content, mainFragment).commit();
             }
-        });
-        thread.start();
+            public void onSwipeTop() {
+                System.out.println("swipe top");
+                fragmentManager.beginTransaction().replace(R.id.content, healthFragment).commit();
+            }});
 
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (b) {
-                    val.setText(Integer.toString(data.getItems().get(data.getItems().size() - 1).getAqi()));
-                    day.setText(data.getItems().get(data.getItems().size() - 1).getDay());
-                    location.setText(data.getTitle());
-                    time.setText(data.getItems().get(data.getItems().size() - 1).getTime());
-                }
-            }
-        }, 2000);
         // Enables Always-on
         setAmbientEnabled();
     }
